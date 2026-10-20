@@ -1,0 +1,80 @@
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 2.25rem;
+        border-radius: 1rem;
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
+        background: rgba(42, 42, 42, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                label {
+                    font-size: 0.85rem;
+                    color: #bbb;
+                    font-weight: 500;
+                }
+
+                input {
+                    width: 100%;
+                    box-sizing: border-box;
+                    padding: 0.75rem 1rem;
+                    border-radius: 0.5rem;
+                    background: #1e1e1e;
+                    border: 1px solid #3a3a3a;
+                    color: #fff;
+                    font-size: 0.95rem;
+                    outline: none;
+                    transition: border-color 0.2s, box-shadow 0.2s;
+
+                    &:focus {
+                        border-color: #dd4200;
+                        box-shadow: 0 0 0 2px rgba(221, 66, 0, 0.25);
+                    }
+                }
+            }
+
+            .button {
+                margin-top: 0.5rem;
+                padding: 0.75rem;
+                font-weight: 600;
+                font-size: 1rem;
+                border-radius: 0.5rem;
+            }
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+        }
+    }
+}
