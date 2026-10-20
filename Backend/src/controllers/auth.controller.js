@@ -4,6 +4,25 @@ const jwt = require("jsonwebtoken");
 const blacklistModel = require("../models/blacklist.model")
 const redis = require("../config/cache")
 
+function getCookieOptions(req) {
+    const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https" || process.env.NODE_ENV === "production";
+    return {
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: isHttps ? "none" : "lax",
+        maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days
+    };
+}
+
+function getClearCookieOptions(req) {
+    const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https" || process.env.NODE_ENV === "production";
+    return {
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: isHttps ? "none" : "lax"
+    };
+}
+
 async function registerUser(req, res) {
     try {
         const { username, email, password } = req.body;
@@ -46,11 +65,7 @@ async function registerUser(req, res) {
             }
         );
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax"
-        });
+        res.cookie("token", token, getCookieOptions(req));
 
         return res.status(201).json({
             message: "User registered successfully",
@@ -115,11 +130,7 @@ async function loginUser(req, res) {
             }
         );
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax"
-        });
+        res.cookie("token", token, getCookieOptions(req));
 
         return res.status(200).json({
             message: "User logged in successfully",
@@ -155,11 +166,7 @@ async function logoutUser(req, res) {
     try {
         const token = req.cookies.token;
 
-        res.clearCookie("token", {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax"
-        });
+        res.clearCookie("token", getClearCookieOptions(req));
 
         if (token) {
             await redis.set(token, Date.now().toString(), "EX", 60 * 60);
